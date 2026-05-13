@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perlowitz Marathon - Race Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🏃 Perlowitz Marathon</h1>
+                <p class="tagline">Join Us for an Unforgettable Running Experience</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Run. Achieve. Celebrate.</h2>
+                    <p>Whether you're a seasoned runner or completing your first marathon, join thousands of participants in the Perlowitz Marathon.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">42.2</span>
+                            <span class="stat-label">Kilometers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">3000+</span>
+                            <span class="stat-label">Runners</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1</span>
+                            <span class="stat-label">Amazing Day</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About The Marathon</h2>
+                <div class="about-content">
+                    <div class="about-item">
+                        <h3>📍 Location & Date</h3>
+                        <p>Perlowitz Central Park<br>Saturday, June 21, 2026<br>Race Start: 7:00 AM</p>
+                    </div>
+                    <div class="about-item">
+                        <h3>🏅 Event Categories</h3>
+                        <p>Marathon (42.2km)<br>Half Marathon (21.1km)<br>10K Fun Run<br>5K Walk</p>
+                    </div>
+                    <div class="about-item">
+                        <h3>🎁 What's Included</h3>
+                        <p>Race bib & timing chip<br>Official merchandise<br>Post-race snacks<br>Certificate of completion</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Form Section -->
+        <section id="register" class="registration">
+            <div class="container">
+                <h2>Register Now</h2>
+                <p class="section-subtitle">Fill out the form below to join us</p>
+                
+                <div class="form-container">
+                    <form id="registrationForm" class="registration-form">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dateOfBirth">Date of Birth *</label>
+                                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender">
+                                    <option value="">Select...</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer_not">Prefer Not to Say</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State/Province *</label>
+                                <input type="text" id="state" name="state" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipcode">ZIP/Postal Code *</label>
+                                <input type="text" id="zipcode" name="zipcode" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <input type="text" id="country" name="country" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Race Category *</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select a category...</option>
+                                <option value="marathon">Marathon (42.2km) - $89</option>
+                                <option value="half-marathon">Half Marathon (21.1km) - $59</option>
+                                <option value="10k">10K Fun Run - $39</option>
+                                <option value="5k">5K Walk - $29</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">Running Experience Level *</label>
+                            <select id="experience" name="experience" required>
+                                <option value="">Select level...</option>
+                                <option value="beginner">Beginner (First time)</option>
+                                <option value="intermediate">Intermediate (1-5 marathons)</option>
+                                <option value="advanced">Advanced (5+ marathons)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tshirtSize">T-Shirt Size *</label>
+                            <select id="tshirtSize" name="tshirtSize" required>
+                                <option value="">Select size...</option>
+                                <option value="xs">Extra Small (XS)</option>
+                                <option value="sm">Small (S)</option>
+                                <option value="md">Medium (M)</option>
+                                <option value="lg">Large (L)</option>
+                                <option value="xl">Extra Large (XL)</option>
+                                <option value="2xl">2X Large (2XL)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emergencyContact">Emergency Contact Name *</label>
+                            <input type="text" id="emergencyContact" name="emergencyContact" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emergencyPhone">Emergency Contact Phone *</label>
+                            <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
+                        </div>
+
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="waiver" name="waiver" required>
+                            <label for="waiver">I agree to the race waiver and terms & conditions *</label>
+                        </div>
+
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Sign me up for event updates and newsletters</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Complete Registration</button>
+                    </form>
+
+                    <div id="successMessage" class="success-message" style="display: none;">
+                        <div class="success-content">
+                            <h3>✓ Registration Successful!</h3>
+                            <p>Thank you for registering for the Perlowitz Marathon!</p>
+                            <p>A confirmation email has been sent to <span id="confirmEmail"></span></p>
+                            <p>We look forward to seeing you at the race!</p>
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">Register Another Participant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📧 Email</h3>
+                        <p><a href="mailto:info@perlowitzmarathon.com">info@perlowitzmarathon.com</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📱 Phone</h3>
+                        <p><a href="tel:+1234567890">(123) 456-7890</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📍 Location</h3>
+                        <p>Perlowitz Central Park<br>Downtown District</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Perlowitz Marathon. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
