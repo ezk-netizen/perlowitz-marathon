@@ -3,6 +3,7 @@ dist
 .DS_Store
 .env
 .next
+.astro
 data/*.jsonl
 .open-next
 .wrangler

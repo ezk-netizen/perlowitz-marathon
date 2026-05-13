@@ -1,0 +1,82 @@
+---
+import RegistrationForm from '../components/RegistrationForm.astro';
+import { highlights, raceOptions } from '../data/raceData';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Perlowitz Marathon Registration"
+  description="Register for the Perlowitz Marathon race weekend."
+>
+  <div class="page-shell" id="top">
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Perlowitz Marathon home">
+          <span aria-hidden="true">PM</span>
+          Perlowitz Marathon
+        </a>
+        <div class="nav-links">
+          <a href="#races">Races</a>
+          <a href="#register">Register</a>
+        </div>
+      </nav>
+
+      <div class="hero-content">
+        <p class="eyebrow">June 14, 2026 - Perlowitz Riverfront</p>
+        <h1>Perlowitz Marathon</h1>
+        <p class="subtitle">
+          A fast, welcoming city race for first-timers, goal chasers, relay crews, and everyone who
+          loves a loud finish line.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#register">Register now</a>
+          <a class="secondary-link" href="#races">View race options</a>
+        </div>
+      </div>
+
+      <div class="race-card" aria-label="Race day summary">
+        <p>Race day</p>
+        <strong>Sunday - 7:00 AM</strong>
+        <span>Expo opens Saturday at Central Hall</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="info-band" aria-label="Marathon highlights">
+        {highlights.map((item) => <div class="highlight"><span aria-hidden="true"></span>{item}</div>)}
+      </section>
+
+      <section class="race-grid" id="races">
+        <div class="section-heading">
+          <p class="eyebrow">Race Weekend</p>
+          <h2>Choose your start line</h2>
+        </div>
+
+        <div class="race-options">
+          {
+            raceOptions.map((race) => (
+              <article class="option-card">
+                <div>
+                  <h3>{race.name}</h3>
+                  <p>{race.distance}</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>Start</dt>
+                    <dd>{race.start}</dd>
+                  </div>
+                  <div>
+                    <dt>Entry</dt>
+                    <dd>{race.fee}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <RegistrationForm />
+    </main>
+  </div>
+</BaseLayout>

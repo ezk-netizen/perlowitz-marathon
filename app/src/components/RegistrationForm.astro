@@ -1,0 +1,200 @@
+---
+import { raceOptions } from '../data/raceData';
+
+const defaultRace = raceOptions[0];
+---
+
+<section class="registration-layout" id="register">
+  <aside class="registration-summary" aria-label="Selected race summary">
+    <p class="eyebrow">Your Race</p>
+    <h2 data-race-summary="name">{defaultRace.name}</h2>
+    <dl>
+      <div>
+        <dt>Distance</dt>
+        <dd data-race-summary="distance">{defaultRace.distance}</dd>
+      </div>
+      <div>
+        <dt>Start time</dt>
+        <dd data-race-summary="start">{defaultRace.start}</dd>
+      </div>
+      <div>
+        <dt>Registration</dt>
+        <dd data-race-summary="fee">{defaultRace.fee}</dd>
+      </div>
+    </dl>
+  </aside>
+
+  <div class="form-panel">
+    <div class="form-heading">
+      <p class="eyebrow">Participant Registration</p>
+      <h2>Reserve your bib</h2>
+      <p>Complete the form to join the starting corral and receive race updates.</p>
+    </div>
+
+    <form id="registration-form" action="/api/register" method="post">
+      <div class="field-grid">
+        <label>
+          First name
+          <input name="firstName" type="text" placeholder="Jane" autocomplete="given-name" required />
+        </label>
+
+        <label>
+          Last name
+          <input name="lastName" type="text" placeholder="Doe" autocomplete="family-name" required />
+        </label>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          Email address
+          <input name="email" type="email" placeholder="jane@example.com" autocomplete="email" required />
+        </label>
+
+        <label>
+          Phone number
+          <input name="phone" type="tel" placeholder="(555) 014-2620" autocomplete="tel" required />
+        </label>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          Age
+          <input name="age" type="number" min="12" max="99" placeholder="24" required />
+        </label>
+
+        <label>
+          T-shirt size
+          <select name="tshirt">
+            <option value="XS">X-Small</option>
+            <option value="S">Small</option>
+            <option value="M" selected>Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+            <option value="XXL">XX-Large</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Race distance
+        <select name="distance" data-race-select>
+          {
+            raceOptions.map((race) => (
+              <option value={race.name}>
+                {race.name} - {race.distance}
+              </option>
+            ))
+          }
+        </select>
+      </label>
+
+      <label>
+        Expected pace
+        <select name="pace" required>
+          <option value="">Select a pace range</option>
+          <option value="Under 7:00">Under 7:00 / mile</option>
+          <option value="7:00-8:59">7:00-8:59 / mile</option>
+          <option value="9:00-10:59">9:00-10:59 / mile</option>
+          <option value="11:00-12:59">11:00-12:59 / mile</option>
+          <option value="13:00+">13:00+ / mile</option>
+        </select>
+      </label>
+
+      <div class="field-grid">
+        <label>
+          Emergency contact
+          <input name="emergencyName" type="text" placeholder="Alex Doe" required />
+        </label>
+
+        <label>
+          Emergency phone
+          <input name="emergencyPhone" type="tel" placeholder="(555) 018-1310" required />
+        </label>
+      </div>
+
+      <label class="checkbox-label">
+        <input name="updates" type="checkbox" checked />
+        Send me race-week reminders and packet pickup details.
+      </label>
+
+      <label class="checkbox-label">
+        <input name="agree" type="checkbox" required />
+        I agree to the event waiver and confirm I can safely participate.
+      </label>
+
+      <button type="submit" class="primary-button">Register now</button>
+    </form>
+
+    <div class="status-box" data-registration-status role="status" hidden>
+      <h3 data-status-title></h3>
+      <p data-status-message></p>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ raceOptions }}>
+  const form = document.querySelector('#registration-form');
+  const raceSelect = document.querySelector('[data-race-select]');
+  const submitButton = form?.querySelector('button[type="submit"]');
+  const statusBox = document.querySelector('[data-registration-status]');
+  const statusTitle = document.querySelector('[data-status-title]');
+  const statusMessage = document.querySelector('[data-status-message]');
+  const summaryFields = {
+    name: document.querySelector('[data-race-summary="name"]'),
+    distance: document.querySelector('[data-race-summary="distance"]'),
+    start: document.querySelector('[data-race-summary="start"]'),
+    fee: document.querySelector('[data-race-summary="fee"]'),
+  };
+
+  function updateRaceSummary() {
+    const selectedRace = raceOptions.find((race) => race.name === raceSelect?.value) ?? raceOptions[0];
+
+    summaryFields.name.textContent = selectedRace.name;
+    summaryFields.distance.textContent = selectedRace.distance;
+    summaryFields.start.textContent = selectedRace.start;
+    summaryFields.fee.textContent = selectedRace.fee;
+  }
+
+  function showStatus({ ok, message }) {
+    statusBox.hidden = false;
+    statusBox.className = ok ? 'success-box' : 'error-box';
+    statusTitle.textContent = ok ? 'Registration submitted!' : 'Registration needs attention';
+    statusMessage.textContent = message;
+  }
+
+  raceSelect?.addEventListener('change', updateRaceSummary);
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Registering...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const result = await response.json();
+
+      showStatus(result);
+
+      if (result.ok) {
+        form.reset();
+        updateRaceSummary();
+      }
+    } catch {
+      showStatus({
+        ok: false,
+        message: 'Registration is temporarily unavailable. Please try again in a moment.',
+      });
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Register now';
+    }
+  });
+</script>
