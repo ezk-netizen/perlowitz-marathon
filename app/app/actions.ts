@@ -1,13 +1,20 @@
 'use server';
 
-import { mkdir, appendFile } from 'node:fs/promises';
-import path from 'node:path';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { raceOptions } from './race-data';
 
 export interface RegistrationState {
   ok: boolean;
   message: string;
 }
+
+type RegistrationValues = Record<(typeof requiredFields)[number], string>;
+
+type RegistrationRecord = Omit<RegistrationValues, 'age'> & {
+  age: number;
+  updates: boolean;
+  submittedAt: string;
+};
 
 const initialState: RegistrationState = {
   ok: false,
@@ -29,13 +36,30 @@ const requiredFields = [
 
 export { initialState };
 
+async function saveRegistration(registration: RegistrationRecord) {
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    const registrations = (env as CloudflareEnv).REGISTRATIONS;
+
+    if (registrations) {
+      const key = `registration:${registration.submittedAt}:${crypto.randomUUID()}`;
+      await registrations.put(key, JSON.stringify(registration));
+      return;
+    }
+  } catch (error) {
+    console.warn('Cloudflare registration storage is unavailable.', error);
+  }
+
+  console.info('Registration submitted without persistent storage.', registration);
+}
+
 export async function registerParticipant(
   _previousState: RegistrationState,
   formData: FormData,
 ): Promise<RegistrationState> {
   const values = Object.fromEntries(
     requiredFields.map((field) => [field, String(formData.get(field) ?? '').trim()]),
-  ) as Record<(typeof requiredFields)[number], string>;
+  ) as RegistrationValues;
 
   const missingField = requiredFields.find((field) => values[field].length === 0);
   if (missingField) {
@@ -55,20 +79,14 @@ export async function registerParticipant(
     return { ok: false, message: 'Participants must be between 12 and 99 years old.' };
   }
 
-  const registration = {
+  const registration: RegistrationRecord = {
     ...values,
     age,
     updates: formData.get('updates') === 'on',
     submittedAt: new Date().toISOString(),
   };
 
-  const dataDirectory = path.join(process.cwd(), 'data');
-  await mkdir(dataDirectory, { recursive: true });
-  await appendFile(
-    path.join(dataDirectory, 'registrations.jsonl'),
-    `${JSON.stringify(registration)}\n`,
-    'utf8',
-  );
+  await saveRegistration(registration);
 
   return {
     ok: true,
